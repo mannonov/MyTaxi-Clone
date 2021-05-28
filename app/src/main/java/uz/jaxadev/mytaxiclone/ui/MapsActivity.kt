@@ -1,4 +1,4 @@
-package uz.jaxadev.mytaxiclone
+package uz.jaxadev.mytaxiclone.ui
 
 
 import android.Manifest
@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import uz.jaxadev.mytaxiclone.R
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -117,7 +118,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val success = map.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this,
-                            R.raw.map_style
+                        R.raw.map_style
                     )
             )
 

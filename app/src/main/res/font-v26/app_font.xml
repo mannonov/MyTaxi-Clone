@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        app:fontStyle="normal"
+        android:font="@font/roboto"
+        app:fontWeight="700" />
+</font-family>
