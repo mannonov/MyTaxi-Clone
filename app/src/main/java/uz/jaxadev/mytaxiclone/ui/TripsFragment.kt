@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import timber.log.Timber
 import uz.jaxadev.mytaxiclone.R
 import uz.jaxadev.mytaxiclone.adapter.TripsRecyclerViewAdapter
 import uz.jaxadev.mytaxiclone.databinding.FragmentTripsBinding
@@ -26,8 +27,8 @@ class TripsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trips, container, false)
@@ -39,64 +40,68 @@ class TripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
 
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
         trips.add(
-            TripModel(
-                destination = getString(R.string.lorem_ipsum),
-                returnAddress = getString(R.string.lorem_ipsum),
-                date = getString(R.string.default_time),
-                paid = getString(R.string.default_sum)
-            )
+                TripModel(
+                        destination = getString(R.string.lorem_ipsum),
+                        returnAddress = getString(R.string.lorem_ipsum),
+                        date = getString(R.string.default_time),
+                        paid = getString(R.string.default_sum)
+                )
         )
 
-        tripsRecyclerViewAdapter = TripsRecyclerViewAdapter(trips)
+        tripsRecyclerViewAdapter = TripsRecyclerViewAdapter(trips, itemTripCollBack = TripsRecyclerViewAdapter.ItemTripCallBack { trip ->
+
+            Timber.d("$trip")
+
+        })
 
 
         binding.recyclerView.apply {

@@ -5,12 +5,18 @@
     <data>
 
         <variable
+            name="itemTripCallBack"
+            type="uz.jaxadev.mytaxiclone.adapter.TripsRecyclerViewAdapter.ItemTripCallBack" />
+
+        <variable
             name="tripItem"
             type="uz.jaxadev.mytaxiclone.model.TripModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trip_item_click"
+        android:onClick="@{() -> itemTripCallBack.onTripClick(tripItem)}"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginHorizontal="20dp"
