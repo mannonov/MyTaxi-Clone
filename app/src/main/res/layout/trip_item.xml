@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:singleLine="true"
-            android:text="@{tripItem.returnAddress}"
+            android:text="@{tripItem.stopAddress}"
             android:textColor="@color/black"
             android:layout_marginHorizontal="16dp"
             android:textSize="@dimen/textsize"

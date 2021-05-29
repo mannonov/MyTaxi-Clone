@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import timber.log.Timber
 import uz.jaxadev.mytaxiclone.R
@@ -29,7 +30,7 @@ class TripsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trips, container, false)
         binding.lifecycleOwner = this
@@ -42,7 +43,7 @@ class TripsFragment : Fragment() {
         trips.add(
             TripModel(
                 destination = "Olmozor tumani Qorasaroy ko'cha",
-                returnAddress = "Shayxontohur tumani Sebzor ko'chasi",
+                stopAddress = "Shayxontohur tumani Sebzor ko'chasi",
                 date = "2021-05-28 08:28",
                 paid = "10,800 som",
                 carModel = "White Nexia",
@@ -67,12 +68,12 @@ class TripsFragment : Fragment() {
         trips.add(
             TripModel(
                 destination = "Olmozor Nurafshon aylanma ko'chasi 48",
-                returnAddress = "Shayxontohur, Xadra",
+                stopAddress = "Shayxontohur, Xadra",
                 date = "2021-02-24 15:04",
                 paid = "7,900 som",
                 carModel = "White Lacetti",
                 carNumber = "01 A 939 NA",
-                driverPhoneNumber = null,
+                driverPhoneNumber = "+998938290012",
                 tariff = "Economy",
                 paymentType = "Payme",
                 order = "4471444",
@@ -82,7 +83,7 @@ class TripsFragment : Fragment() {
                 baseFare = "5,000 som",
                 rideFee = "2,008 som",
                 waitingFee = "873 som",
-                surge = null,
+                surge = "2,500 som",
                 total = "7,900 som",
                 driverName = "Maxamadjon",
                 driverRating = "4.8",
@@ -96,7 +97,35 @@ class TripsFragment : Fragment() {
             trips,
             itemTripCollBack = TripsRecyclerViewAdapter.ItemTripCallBack { trip ->
 
+                val directions = TripsFragmentDirections.actionTripsFragmentToMapsFragment(
+                    destination = trip.destination,
+                    stopAdress = trip.stopAddress,
+                    date = trip.date,
+                    paid = trip.paid,
+                    carModel = trip.carModel,
+                    carNumber = trip.carNumber,
+                    driverPhoneNumber = trip.driverPhoneNumber,
+                    tariff = trip.tariff,
+                    paymentType = trip.paymentType,
+                    startTime = trip.startTime,
+                    order = trip.order,
+                    endTime = trip.endTime,
+                    tripTime = trip.tripTime,
+                    baseFare = trip.baseFare,
+                    rideFee = trip.rideFee,
+                    waitingFee = trip.waitingFee,
+                    surge = trip.surge,
+                    total = trip.total,
+                    driverName = trip.driverName,
+                    driverRating = trip.driverRating,
+                    driverTrips = trip.driverTrips
+
+
+                )
+
                 Timber.d("$trip")
+
+                findNavController().navigate(directions)
 
             })
 

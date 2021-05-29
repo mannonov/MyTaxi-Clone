@@ -4,7 +4,7 @@ data class TripModel(
 
     val destination: String,
 
-    val returnAddress: String,
+    val stopAddress: String,
 
     val date: String,
 
@@ -14,7 +14,7 @@ data class TripModel(
 
     val carNumber: String,
 
-    val driverPhoneNumber: String?,
+    val driverPhoneNumber: String,
 
     val tariff: String,
 
@@ -34,7 +34,7 @@ data class TripModel(
 
     val waitingFee: String,
 
-    val surge: String?,
+    val surge: String,
 
     val total: String,
 

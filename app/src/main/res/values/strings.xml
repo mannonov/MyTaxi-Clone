@@ -16,10 +16,11 @@
     <string name="payment_type">Payment type</string>
     <string name="order">Order №</string>
     <string name="trip_time">Trip time</string>
-    <string name="base_fare">Basea fare</string>
+    <string name="base_fare">Base fare</string>
     <string name="waiting_fee">Waiting fee</string>
     <string name="surge">Surge</string>
     <string name="total">Total</string>
     <string name="rating">Rating:</string>
     <string name="trips">Trips:</string>
+    <string name="ride_fee">Ride fee</string>
 </resources>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mapsFragment">
+    app:startDestination="@id/tripsFragment">
 
     <fragment
         android:id="@+id/tripsFragment"
@@ -23,7 +23,7 @@
             android:name="destination"
             app:argType="string" />
         <argument
-            android:name="returnAddress"
+            android:name="stopAdress"
             app:argType="string" />
         <argument
             android:name="date"
