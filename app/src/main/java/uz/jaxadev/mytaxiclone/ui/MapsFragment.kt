@@ -16,6 +16,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.fragment_maps.*
 import uz.jaxadev.mytaxiclone.R
 import java.util.*
 
@@ -30,7 +32,7 @@ class MapsFragment : Fragment() {
     private val callback = OnMapReadyCallback { googleMap ->
         val latitude = 41.32551940
         val longitude = 69.2453650
-        val zoomLevel = 15f
+        val zoomLevel = 30f
         homeLatLng = LatLng(latitude, longitude)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
         googleMap.addMarker(MarkerOptions().position(homeLatLng))
@@ -63,6 +65,11 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+
+        BottomSheetBehavior.from(bottom_sheet).apply {
+            peekHeight = 300
+        }
+
     }
 
     private fun setMapLongClick(map: GoogleMap) {

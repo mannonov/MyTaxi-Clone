@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MyTaxiClone" parent="Theme.Design.Light">
+    <style name="Theme.MyTaxiClone" parent="Theme.Design.Light.NoActionBar">
         <item name="android:fontFamily">@font/app_font</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">#FFFFFF</item>
-        <item name="colorPrimaryVariant">#CCCCCC</item>
+        <item name="colorPrimaryVariant">#333333</item>
         <item name="colorOnPrimary">#000000</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
