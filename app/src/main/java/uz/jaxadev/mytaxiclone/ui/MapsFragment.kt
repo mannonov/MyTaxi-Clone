@@ -78,27 +78,27 @@ class MapsFragment : Fragment() {
             peekHeight = 300
         }
 
-        binding.apply {
-            destination = args.destination
-            stopAdrees = args.stopAdress
-            carModel = args.carModel
-            carNumber = args.carNumber
-            tariff = args.tariff
-            paymentType = args.paymentType
-            startTime = args.startTime
-            order = args.order
-            endTime = args.endTime
-            tripTime = args.tripTime
-            baseFare = args.baseFare
-            rideFee = args.rideFee
-            waitingFee = args.waitingFee
-            surge = args.surge
-            total = args.total
-            driverName = args.driverName
-            rating = args.driverRating
-            trips = args.driverTrips
-
-        }
+//        binding.apply {
+//            destination = args.destination
+//            stopAdrees = args.stopAdress
+//            carModel = args.carModel
+//            carNumber = args.carNumber
+//            tariff = args.tariff
+//            paymentType = args.paymentType
+//            startTime = args.startTime
+//            order = args.order
+//            endTime = args.endTime
+//            tripTime = args.tripTime
+//            baseFare = args.baseFare
+//            rideFee = args.rideFee
+//            waitingFee = args.waitingFee
+//            surge = args.surge
+//            total = args.total
+//            driverName = args.driverName
+//            rating = args.driverRating
+//            trips = args.driverTrips
+//
+//        }
 
 
     }

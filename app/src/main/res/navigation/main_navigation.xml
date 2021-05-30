@@ -20,67 +20,7 @@
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <argument
-            android:name="destination"
-            app:argType="string" />
-        <argument
-            android:name="stopAdress"
-            app:argType="string" />
-        <argument
-            android:name="date"
-            app:argType="string" />
-        <argument
-            android:name="paid"
-            app:argType="string" />
-        <argument
-            android:name="carModel"
-            app:argType="string" />
-        <argument
-            android:name="carNumber"
-            app:argType="string" />
-        <argument
-            android:name="driverPhoneNumber"
-            app:argType="string" />
-        <argument
-            android:name="tariff"
-            app:argType="string" />
-        <argument
-            android:name="paymentType"
-            app:argType="string" />
-        <argument
-            android:name="startTime"
-            app:argType="string" />
-        <argument
-            android:name="order"
-            app:argType="string" />
-        <argument
-            android:name="endTime"
-            app:argType="string" />
-        <argument
-            android:name="tripTime"
-            app:argType="string" />
-        <argument
-            android:name="baseFare"
-            app:argType="string" />
-        <argument
-            android:name="rideFee"
-            app:argType="string" />
-        <argument
-            android:name="waitingFee"
-            app:argType="string" />
-        <argument
-            android:name="surge"
-            app:argType="string" />
-        <argument
-            android:name="total"
-            app:argType="string" />
-        <argument
-            android:name="driverName"
-            app:argType="string" />
-        <argument
-            android:name="driverRating"
-            app:argType="string" />
-        <argument
-            android:name="driverTrips"
-            app:argType="string" />
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

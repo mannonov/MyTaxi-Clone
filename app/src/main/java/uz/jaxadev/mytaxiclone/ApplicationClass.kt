@@ -3,7 +3,7 @@ package uz.jaxadev.mytaxiclone
 import android.app.Application
 import timber.log.Timber
 
-class ApplicationClass: Application() {
+class ApplicationClass : Application() {
 
     override fun onCreate() {
         super.onCreate()
