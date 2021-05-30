@@ -95,7 +95,7 @@
         <FrameLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <ImageView
@@ -148,18 +148,18 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".02">
+                            android:layout_weight=".02"
+                            android:layout_gravity="center">
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:layout_gravity="center_horizontal"
                                 app:cardCornerRadius="50dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@color/black" />
+                                    android:src="@drawable/ic_call" />
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>
                     </LinearLayout>
@@ -171,6 +171,7 @@
 
                     <ScrollView
                         android:layout_width="match_parent"
+                        android:scrollbars="none"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
@@ -495,7 +496,7 @@
                                     android:layout_weight=".1"
                                     android:gravity="start"
                                     android:text="@string/total"
-                                    android:textSize="20sp" />
+                                    android:textSize="25sp" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -516,23 +517,23 @@
                                 android:layout_height="wrap_content"
                                 >
 
-                                <androidx.cardview.widget.CardView
+                                <com.makeramen.roundedimageview.RoundedImageView
                                     android:id="@+id/cardView"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal"
-                                    app:cardCornerRadius="50dp"
+                                    android:src="@drawable/avatar"
+                                    app:riv_corner_radius="30dip"
+                                    app:riv_border_width="2dip"
+                                    app:riv_border_color="#3C3F41"
+                                    app:riv_oval="true"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
 
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:src="@color/black" />
-                                </androidx.cardview.widget.CardView>
+                                </com.makeramen.roundedimageview.RoundedImageView>
 
                                 <TextView
                                     android:id="@+id/textView5"
@@ -578,7 +579,7 @@
                                     android:id="@+id/imageView4"
                                     android:layout_width="16dp"
                                     android:layout_height="16dp"
-                                    android:src="@color/gray"
+                                    android:src="@drawable/ic_star"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintHorizontal_bias="0.0"

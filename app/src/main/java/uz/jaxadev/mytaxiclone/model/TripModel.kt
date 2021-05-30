@@ -8,6 +8,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "trip_table")
 data class TripModel(
 
+    @ColumnInfo(name = "tripId")
+    val tripId: Int,
+
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 

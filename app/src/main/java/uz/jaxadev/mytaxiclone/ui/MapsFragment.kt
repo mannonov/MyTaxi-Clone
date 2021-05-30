@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_maps.*
 import uz.jaxadev.mytaxiclone.R
+import uz.jaxadev.mytaxiclone.database.TripDatabase
 import uz.jaxadev.mytaxiclone.databinding.FragmentMapsBinding
 import java.util.*
 
@@ -59,6 +60,12 @@ class MapsFragment : Fragment() {
         enableMyLocation()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,31 +81,37 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
+        val database = TripDatabase.getInstance(requireActivity())
+        val tripDao = database.tripDao()
+
+        tripDao.queryWithID(args.id).observe(requireActivity(), androidx.lifecycle.Observer { trip->
+
+
+            binding.apply {
+                destination = trip.destination
+                stopAdrees = trip.stopAddress
+                carModel = trip.carModel
+                carNumber = trip.carNumber
+                tariff = trip.tariff
+                paymentType = trip.paymentType
+                startTime = trip.startTime
+                order = trip.order
+                endTime = trip.endTime
+                tripTime = trip.tripTime
+                baseFare = trip.baseFare
+                rideFee = trip.rideFee
+                waitingFee = trip.waitingFee
+                surge = trip.surge
+                total = trip.total
+                driverName = trip.driverName
+                rating = trip.driverRating
+                trips = trip.driverTrips
+            }
+        })
+
         BottomSheetBehavior.from(bottom_sheet).apply {
             peekHeight = 300
         }
-
-//        binding.apply {
-//            destination = args.destination
-//            stopAdrees = args.stopAdress
-//            carModel = args.carModel
-//            carNumber = args.carNumber
-//            tariff = args.tariff
-//            paymentType = args.paymentType
-//            startTime = args.startTime
-//            order = args.order
-//            endTime = args.endTime
-//            tripTime = args.tripTime
-//            baseFare = args.baseFare
-//            rideFee = args.rideFee
-//            waitingFee = args.waitingFee
-//            surge = args.surge
-//            total = args.total
-//            driverName = args.driverName
-//            rating = args.driverRating
-//            trips = args.driverTrips
-//
-//        }
 
 
     }

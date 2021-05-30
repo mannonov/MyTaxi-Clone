@@ -81,5 +81,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
+    //RoundedImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }

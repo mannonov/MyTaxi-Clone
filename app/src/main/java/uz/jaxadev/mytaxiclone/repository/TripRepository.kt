@@ -9,6 +9,7 @@ class TripRepository(val tripDao: TripDao) {
 
     val allTrips = tripDao.queryAllTrips()
 
+
     suspend fun fetchTrips() {
 
 

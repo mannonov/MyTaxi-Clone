@@ -41,30 +41,6 @@ class TripsFragment : Fragment() {
         trips = ArrayList()
 
 
-//        tripViewModel.insert(TripModel(
-//            destination = "Olmozor tumani Qorasaroy ko'cha",
-//            stopAddress = "Shayxontohur tumani Sebzor ko'chasi",
-//            date = "2021-05-28 08:28",
-//            paid = "10,800 som",
-//            carModel = "White Nexia",
-//            carNumber = "01 Z 884 YA",
-//            driverPhoneNumber = "+998909666335",
-//            tariff = "Economy",
-//            paymentType = "Cash",
-//            order = "5345362",
-//            startTime = "08:32",
-//            endTime = "08:38",
-//            tripTime = "00:05",
-//            baseFare = "5,000 som",
-//            rideFee = "1,752 som",
-//            waitingFee = "0 som",
-//            surge = "4,000 som",
-//            total = "10,800 som",
-//            driverName = "Timur",
-//            driverRating = "4.9",
-//            driverTrips = "1133"
-//        ))
-
     }
 
     override fun onCreateView(
@@ -81,7 +57,6 @@ class TripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tripsRecyclerViewAdapter = TripsRecyclerViewAdapter(
-            trips,
             itemTripCollBack = TripsRecyclerViewAdapter.ItemTripCallBack { trip ->
 
                 val directions = TripsFragmentDirections.actionTripsFragmentToMapsFragment(
@@ -99,8 +74,8 @@ class TripsFragment : Fragment() {
 
 
         tripViewModel.allTrip.observe(requireActivity(), Observer {
-            tripsRecyclerViewAdapter.trips = it
-            tripsRecyclerViewAdapter.notifyDataSetChanged()
+            tripsRecyclerViewAdapter.submitList(it)
+            Timber.d("idlar nima bovotti $it")
         })
 
 

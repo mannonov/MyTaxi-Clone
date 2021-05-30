@@ -16,6 +16,6 @@ interface TripDao {
     fun insert(trips: ArrayList<TripModel>)
 
     @Query("SELECT * FROM trip_table WHERE id = :id")
-    fun queryWithID(id: Int): TripModel
+    fun queryWithID(id: Int): LiveData<TripModel>
 
 }
