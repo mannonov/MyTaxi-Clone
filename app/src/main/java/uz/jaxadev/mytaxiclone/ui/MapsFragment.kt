@@ -1,6 +1,7 @@
 package uz.jaxadev.mytaxiclone.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
@@ -8,10 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_maps.*
 import uz.jaxadev.mytaxiclone.R
 import uz.jaxadev.mytaxiclone.database.TripDatabase
@@ -42,16 +48,18 @@ class MapsFragment : Fragment() {
         val zoomLevel = 17f
         homeLatLng = LatLng(latitude, longitude)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-        googleMap.addMarker(MarkerOptions().position(homeLatLng))
+        googleMap.addMarker(
+            MarkerOptions().position(homeLatLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+        )
         map = googleMap
-
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
-        val overlaySize = 100f
+        val overlaySize = 10f
 
         val googleOverlay = GroundOverlayOptions()
-            .image(BitmapDescriptorFactory.fromResource(R.drawable.najottalim))
-            .position(homeLatLng, overlaySize)
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.red_crcle_location))
+            .position(LatLng(41.326541, 69.246328), overlaySize)
         map.addGroundOverlay(googleOverlay)
 
         setMapLongClick(map)
@@ -76,41 +84,52 @@ class MapsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
+        binding.mapsCardView.setBackgroundResource(R.drawable.rounded)
+
+
+        binding.btnBack.setOnClickListener {
+            val mapsFragmentDirections = MapsFragmentDirections.actionMapsFragmentToTripsFragment()
+            findNavController().navigate(mapsFragmentDirections)
+        }
+
         val database = TripDatabase.getInstance(requireActivity())
         val tripDao = database.tripDao()
 
-        tripDao.queryWithID(args.id).observe(requireActivity(), androidx.lifecycle.Observer { trip->
+        tripDao.queryWithID(args.id)
+            .observe(requireActivity(), androidx.lifecycle.Observer { trip ->
 
 
-            binding.apply {
-                destination = trip.destination
-                stopAdrees = trip.stopAddress
-                carModel = trip.carModel
-                carNumber = trip.carNumber
-                tariff = trip.tariff
-                paymentType = trip.paymentType
-                startTime = trip.startTime
-                order = trip.order
-                endTime = trip.endTime
-                tripTime = trip.tripTime
-                baseFare = trip.baseFare
-                rideFee = trip.rideFee
-                waitingFee = trip.waitingFee
-                surge = trip.surge
-                total = trip.total
-                driverName = trip.driverName
-                rating = trip.driverRating
-                trips = trip.driverTrips
-            }
-        })
+                binding.apply {
+                    destination = trip.destination
+                    stopAdrees = trip.stopAddress
+                    carModel = trip.carModel
+                    carNumber = trip.carNumber
+                    tariff = trip.tariff
+                    paymentType = trip.paymentType
+                    startTime = trip.startTime
+                    order = trip.order
+                    endTime = trip.endTime
+                    tripTime = trip.tripTime
+                    baseFare = trip.baseFare
+                    rideFee = trip.rideFee
+                    waitingFee = trip.waitingFee
+                    surge = trip.surge
+                    total = trip.total
+                    driverName = trip.driverName
+                    rating = trip.driverRating
+                    trips = trip.driverTrips
+                }
+            })
 
         BottomSheetBehavior.from(bottom_sheet).apply {
             peekHeight = 300
+            disableShapeAnimations()
         }
 
 

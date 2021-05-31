@@ -49,7 +49,7 @@ class TripsRecyclerViewAdapter(val itemTripCollBack: ItemTripCallBack) :
 
         override fun areItemsTheSame(oldItem: TripModel, newItem: TripModel): Boolean {
             Log.d(TAG, "oldItem.tripId == newItem.tripId $oldItem $newItem ")
-            return oldItem.id == newItem.id && oldItem.tripId == newItem.tripId
+            return oldItem.tripId == newItem.tripId
         }
     }
 

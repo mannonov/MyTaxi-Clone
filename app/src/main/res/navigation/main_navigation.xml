@@ -22,5 +22,8 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_mapsFragment_to_tripsFragment"
+            app:destination="@id/tripsFragment" />
     </fragment>
 </navigation>
