@@ -15,10 +15,10 @@ data class TripModel(
     val id: Int = 0,
 
     @ColumnInfo(name = "destination")
-    val destination: String,
+    val startPoint: String,
 
     @ColumnInfo(name = "stopAddress")
-    val stopAddress: String,
+    val endPoind: String,
 
     @ColumnInfo(name = "date")
     val date: String,
@@ -44,14 +44,14 @@ data class TripModel(
     @ColumnInfo(name = "startTime")
     val startTime: String,
 
-    @ColumnInfo(name = "order")
-    val order: String,
-
     @ColumnInfo(name = "endTime")
     val endTime: String,
 
     @ColumnInfo(name = "tripTime")
     val tripTime: String,
+
+    @ColumnInfo(name = "distance")
+    val distance: String,
 
     @ColumnInfo(name = "baseFare")
     val baseFare: String,
@@ -61,12 +61,6 @@ data class TripModel(
 
     @ColumnInfo(name = "waitingFee")
     val waitingFee: String,
-
-    @ColumnInfo(name = "surge")
-    val surge: String,
-
-    @ColumnInfo(name = "total")
-    val total: String,
 
     @ColumnInfo(name = "driverName")
     val driverName: String,

@@ -23,4 +23,6 @@
     <string name="rating">Rating:</string>
     <string name="trips">Trips:</string>
     <string name="ride_fee">Ride fee</string>
+    <string name="destination">Destination</string>
+    <string name="distance">Distance</string>
 </resources>

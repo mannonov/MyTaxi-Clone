@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import uz.jaxadev.mytaxiclone.model.TripModel
 
-@Database(entities = [TripModel::class], exportSchema = false, version = 2)
+@Database(entities = [TripModel::class], exportSchema = false, version = 3)
 abstract class TripDatabase : RoomDatabase() {
     abstract fun tripDao(): TripDao
 

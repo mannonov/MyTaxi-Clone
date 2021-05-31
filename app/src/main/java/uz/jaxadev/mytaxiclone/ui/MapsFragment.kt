@@ -9,8 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -23,8 +21,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_maps.*
 import uz.jaxadev.mytaxiclone.R
 import uz.jaxadev.mytaxiclone.database.TripDatabase
@@ -50,15 +46,15 @@ class MapsFragment : Fragment() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
         googleMap.addMarker(
             MarkerOptions().position(homeLatLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_eta_main))
         )
         map = googleMap
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
-        val overlaySize = 10f
+        val overlaySize = 20f
 
         val googleOverlay = GroundOverlayOptions()
-            .image(BitmapDescriptorFactory.fromResource(R.drawable.red_crcle_location))
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_point_end))
             .position(LatLng(41.326541, 69.246328), overlaySize)
         map.addGroundOverlay(googleOverlay)
 
@@ -90,8 +86,6 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
-        binding.mapsCardView.setBackgroundResource(R.drawable.rounded)
-
 
         binding.btnBack.setOnClickListener {
             val mapsFragmentDirections = MapsFragmentDirections.actionMapsFragmentToTripsFragment()
@@ -106,21 +100,19 @@ class MapsFragment : Fragment() {
 
 
                 binding.apply {
-                    destination = trip.destination
-                    stopAdrees = trip.stopAddress
+                    startPoint = trip.startPoint
+                    endPoint = trip.endPoind
                     carModel = trip.carModel
                     carNumber = trip.carNumber
                     tariff = trip.tariff
+                    dictance = trip.distance
                     paymentType = trip.paymentType
                     startTime = trip.startTime
-                    order = trip.order
                     endTime = trip.endTime
                     tripTime = trip.tripTime
                     baseFare = trip.baseFare
                     rideFee = trip.rideFee
                     waitingFee = trip.waitingFee
-                    surge = trip.surge
-                    total = trip.total
                     driverName = trip.driverName
                     rating = trip.driverRating
                     trips = trip.driverTrips
