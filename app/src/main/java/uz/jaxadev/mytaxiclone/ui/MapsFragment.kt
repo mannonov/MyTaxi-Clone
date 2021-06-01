@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,20 +21,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_maps.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import uz.jaxadev.mytaxiclone.R
 import uz.jaxadev.mytaxiclone.database.TripDao
 import uz.jaxadev.mytaxiclone.database.TripDatabase
 import uz.jaxadev.mytaxiclone.databinding.FragmentMapsBinding
-import uz.jaxadev.mytaxiclone.viewmodel.TripViewModel
-import uz.jaxadev.mytaxiclone.viewmodel.TripViewModelFactory
-import uz.jaxadev.util.Route
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class MapsFragment : Fragment() {
 
@@ -46,15 +39,9 @@ class MapsFragment : Fragment() {
     private lateinit var startPoint: LatLng
     private lateinit var endPoint: LatLng
 
-    private lateinit var polylineList: ArrayList<LatLng>
-
-    private lateinit var tripViewModel: TripViewModel
-
     private val args: MapsFragmentArgs by navArgs()
 
     private lateinit var tripDao: TripDao
-
-    private lateinit var polylineOptions: PolylineOptions
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,10 +49,6 @@ class MapsFragment : Fragment() {
 
         val database = TripDatabase.getInstance(requireActivity())
         tripDao = database.tripDao()
-
-        val viewModelFactory = TripViewModelFactory(tripDao)
-        tripViewModel = ViewModelProvider(this, viewModelFactory).get(TripViewModel::class.java)
-
 
     }
 
@@ -81,52 +64,22 @@ class MapsFragment : Fragment() {
 
 
     private val callback = OnMapReadyCallback { googleMap ->
+
+        map = googleMap
+
         val startLatitude = 41.32551940
         val startLongitude = 69.2453650
-        val endLatitude = 41.326541
-        val endLongitude = 69.246328
-        val zoomLevel = 17f
+        val endLatitude = 41.342248
+        val endLongitude = 69.241522
+
         startPoint = LatLng(startLatitude, startLongitude)
         endPoint = LatLng(endLatitude, endLongitude)
 
-        val job = Job()
-        val viewModelScope = CoroutineScope(Dispatchers.Main + job)
+        val builder: LatLngBounds.Builder = LatLngBounds.Builder()
+        builder.include(startPoint)
+        builder.include(endPoint)
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100))
 
-        polylineList = ArrayList()
-
-        viewModelScope.launch {
-            tripViewModel.getDirection(
-                "$startLatitude,$startLongitude",
-                "$endLatitude,$endLongitude"
-            ).observe(requireActivity(), androidx.lifecycle.Observer {
-                Timber.d("Observe")
-
-                    val listRoute: List<Route> = it.routes
-                    for (route in listRoute) {
-                        val polyline: String = route.overViewPolyline.points
-                        polylineList.addAll(decodePoly(polyline)!!)
-                        Timber.d("$polylineList")
-                    }
-
-
-                    polylineOptions = PolylineOptions()
-                    polylineOptions.color(ContextCompat.getColor(requireActivity(), R.color.black))
-                    polylineOptions.width(8f)
-                    polylineOptions.startCap(ButtCap())
-                    polylineOptions.jointType(JointType.ROUND)
-                    polylineOptions.addAll(polylineList)
-                    map.addPolyline(polylineOptions)
-
-                    val builder : LatLngBounds.Builder = LatLngBounds.Builder()
-                    builder.include(startPoint)
-                    builder.include(endPoint)
-                    map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),100))
-
-                })
-        }
-
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint, zoomLevel))
         googleMap.addMarker(
             MarkerOptions().position(startPoint)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_eta_main))
@@ -134,17 +87,38 @@ class MapsFragment : Fragment() {
         map = googleMap
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
-        val overlaySize = 20f
+        googleMap.addMarker(
+            MarkerOptions().position(endPoint)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_point_end))
+        )
 
-        val googleOverlay = GroundOverlayOptions()
-            .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_point_end))
-            .position(LatLng(41.326541, 69.246328), overlaySize)
-        map.addGroundOverlay(googleOverlay)
+
+        setPolyline(map)
 
         setMapLongClick(map)
         setPoiClick(map)
         setMapStyle(map)
         enableMyLocation()
+    }
+
+    private fun setPolyline(googleMap: GoogleMap) {
+        val coordinates: MutableList<LatLng> = ArrayList()
+        coordinates.add(LatLng(41.32551940, 69.2453650))
+        coordinates.add(LatLng(41.328251, 69.247924))
+        coordinates.add(LatLng(41.324484, 69.254904))
+        coordinates.add(LatLng(41.325305, 69.254910))
+        coordinates.add(LatLng(41.329648, 69.246923))
+        coordinates.add(LatLng(41.330834, 69.242856))
+        coordinates.add(LatLng(41.342248, 69.241522))
+
+        val polyline = PolylineOptions()
+        polyline.addAll(coordinates)
+        polyline.width(10f)
+        polyline.color(ContextCompat.getColor(requireActivity(), R.color.polyline))
+        polyline.jointType(JointType.ROUND)
+        polyline.startCap(ButtCap())
+        googleMap.addPolyline(polyline)
+
     }
 
 
@@ -233,7 +207,7 @@ class MapsFragment : Fragment() {
             )
 
             if (!success) {
-                Timber.d( "Style parsing failed.")
+                Timber.d("Style parsing failed.")
             }
         } catch (e: Resources.NotFoundException) {
             Timber.d("Can't find style. Error: ", e)
@@ -282,40 +256,5 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun decodePoly(encoded: String): List<LatLng>? {
-        val poly: MutableList<LatLng> = java.util.ArrayList()
-        var index = 0
-        val len = encoded.length
-        var lat = 0
-        var lng = 0
-        while (index < len) {
-            var b: Int
-            var shift = 0
-            var result = 0
-            do {
-                b = encoded[index++].toInt() - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            run {
-                val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-                lat += dlat
-                shift = 0
-                result = 0
-                do {
-                    b = encoded[index++].toInt() - 63
-                    result = result or (b and 0x1f shl shift)
-                    shift += 5
-                } while (b >= 0x20)
-                {
-                    val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-                    lng += dlng
-                    val p = LatLng(lat.toDouble() / 1E5, lng.toDouble() / 1E5)
-                    poly.add(p)
-                }
-            }
-        }
-        return poly
-    }
 
 }
