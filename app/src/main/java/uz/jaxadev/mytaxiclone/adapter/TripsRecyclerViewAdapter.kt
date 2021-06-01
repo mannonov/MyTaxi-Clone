@@ -1,6 +1,5 @@
 package uz.jaxadev.mytaxiclone.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -40,15 +39,11 @@ class TripsRecyclerViewAdapter(val itemTripCollBack: ItemTripCallBack) :
     class TripsComparator : DiffUtil.ItemCallback<TripModel>() {
 
 
-        private val TAG = "TripsRecyclerViewAdapter"
-
         override fun areContentsTheSame(oldItem: TripModel, newItem: TripModel): Boolean {
-            Log.d(TAG, "oldItem == newItem $oldItem $newItem ")
             return oldItem == newItem
         }
 
         override fun areItemsTheSame(oldItem: TripModel, newItem: TripModel): Boolean {
-            Log.d(TAG, "oldItem.tripId == newItem.tripId $oldItem $newItem ")
             return oldItem.tripId == newItem.tripId
         }
     }
