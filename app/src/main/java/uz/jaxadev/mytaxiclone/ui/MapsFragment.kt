@@ -7,6 +7,8 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -143,7 +145,7 @@ class MapsFragment : Fragment() {
     }
 
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -180,11 +182,25 @@ class MapsFragment : Fragment() {
                     trips = trip.driverTrips
                 }
             })
+        binding.containerRoot.setBackgroundColor(R.color.black)
 
-        BottomSheetBehavior.from(bottom_sheet).apply {
-            peekHeight = 300
-        }
 
+        val transition = ChangeBounds()
+        transition.duration = 200L
+        TransitionManager.beginDelayedTransition(binding.bottomSheet, transition)
+        BottomSheetBehavior.from(bottom_sheet).setPeekHeight(300,true)
+
+//        binding.bottomSheet.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+//            bottomSheetBehavior.setPeekHeight(bottomSheetPeekLayout.height, true)
+//        }
+//        BottomSheetBehavior.from(bottom_sheet).apply {
+//            peekHeight = 300
+//            if (peekHeight <= 300){
+//
+//                binding.containerRoot.setBackgroundColor(R.color.black)
+//
+//            }
+//        }
 
     }
 
