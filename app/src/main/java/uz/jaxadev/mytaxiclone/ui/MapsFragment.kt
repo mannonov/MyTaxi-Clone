@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +77,7 @@ class MapsFragment : Fragment() {
         startPoint = LatLng(startLatitude, startLongitude)
         endPoint = LatLng(endLatitude, endLongitude)
 
+
         val builder: LatLngBounds.Builder = LatLngBounds.Builder()
         builder.include(startPoint)
         builder.include(endPoint)
@@ -82,14 +85,32 @@ class MapsFragment : Fragment() {
 
         googleMap.addMarker(
             MarkerOptions().position(startPoint)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_eta_main))
+                .icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        smallMarker(
+                            R.drawable.pin_main,
+                            240,
+                            170
+                        )
+                    )
+                )
         )
         map = googleMap
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+        map.uiSettings.isMyLocationButtonEnabled = false
+
 
         googleMap.addMarker(
             MarkerOptions().position(endPoint)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_point_end))
+                .icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        smallMarker(
+                            R.drawable.pin_mini,
+                            100,
+                            100
+                        )
+                    )
+                )
         )
 
 
@@ -254,6 +275,13 @@ class MapsFragment : Fragment() {
                 enableMyLocation()
             }
         }
+    }
+
+    fun smallMarker(icon: Int, height: Int, width: Int): Bitmap {
+        val bitmapdraw = resources.getDrawable(icon) as BitmapDrawable
+        val b = bitmapdraw.bitmap
+        return Bitmap.createScaledBitmap(b, width, height, false)
+
     }
 
 
