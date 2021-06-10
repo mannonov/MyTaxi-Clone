@@ -7,11 +7,10 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.transition.ChangeBounds
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -24,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.android.synthetic.main.fragment_maps.*
 import timber.log.Timber
 import uz.jaxadev.mytaxiclone.R
@@ -47,12 +47,15 @@ class MapsFragment : Fragment() {
 
     private lateinit var tripDao: TripDao
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val database = TripDatabase.getInstance(requireActivity())
         tripDao = database.tripDao()
+
 
     }
 
@@ -83,37 +86,12 @@ class MapsFragment : Fragment() {
         val builder: LatLngBounds.Builder = LatLngBounds.Builder()
         builder.include(startPoint)
         builder.include(endPoint)
-        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100))
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 0))
 
-        googleMap.addMarker(
-            MarkerOptions().position(startPoint)
-                .icon(
-                    BitmapDescriptorFactory.fromBitmap(
-                        smallMarker(
-                            R.drawable.pin_main,
-                            240,
-                            170
-                        )
-                    )
-                )
-        )
         map = googleMap
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
         map.uiSettings.isMyLocationButtonEnabled = false
 
-
-        googleMap.addMarker(
-            MarkerOptions().position(endPoint)
-                .icon(
-                    BitmapDescriptorFactory.fromBitmap(
-                        smallMarker(
-                            R.drawable.pin_mini,
-                            100,
-                            100
-                        )
-                    )
-                )
-        )
 
 
         setPolyline(map)
@@ -134,18 +112,42 @@ class MapsFragment : Fragment() {
         coordinates.add(LatLng(41.330834, 69.242856))
         coordinates.add(LatLng(41.342248, 69.241522))
 
+
         val polyline = PolylineOptions()
         polyline.addAll(coordinates)
-        polyline.width(10f)
+        polyline.width(15f)
         polyline.color(ContextCompat.getColor(requireActivity(), R.color.polyline))
         polyline.jointType(JointType.ROUND)
-        polyline.startCap(ButtCap())
+        polyline.startCap(SquareCap())
+        polyline.endCap(SquareCap())
+        polyline.geodesic(true)
         googleMap.addPolyline(polyline)
 
+
+
+        googleMap.addGroundOverlay(
+            GroundOverlayOptions()
+                .position(coordinates[coordinates.size - 1], 150f)
+                .zIndex(3f)
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.pin_mini))
+        )
+
+
+        googleMap.addMarker(
+            MarkerOptions().position(startPoint)
+                .icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        smallMarker(
+                            R.drawable.pin_main,
+                            240,
+                            170
+                        )
+                    )
+                )
+        )
     }
 
 
-    @SuppressLint("RestrictedApi", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -156,6 +158,8 @@ class MapsFragment : Fragment() {
             val mapsFragmentDirections = MapsFragmentDirections.actionMapsFragmentToTripsFragment()
             findNavController().navigate(mapsFragmentDirections)
         }
+
+
 
 
 
@@ -182,25 +186,28 @@ class MapsFragment : Fragment() {
                     trips = trip.driverTrips
                 }
             })
-        binding.containerRoot.setBackgroundColor(R.color.black)
 
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
 
-        val transition = ChangeBounds()
-        transition.duration = 200L
-        TransitionManager.beginDelayedTransition(binding.bottomSheet, transition)
-        BottomSheetBehavior.from(bottom_sheet).setPeekHeight(300,true)
+        bottomSheetBehavior.apply {
+            isHideable = true
+            peekHeight = 300
+            isDraggable = true
+        }
 
-//        binding.bottomSheet.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-//            bottomSheetBehavior.setPeekHeight(bottomSheetPeekLayout.height, true)
-//        }
-//        BottomSheetBehavior.from(bottom_sheet).apply {
-//            peekHeight = 300
-//            if (peekHeight <= 300){
-//
-//                binding.containerRoot.setBackgroundColor(R.color.black)
-//
-//            }
-//        }
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                Timber.d("State changed newState = $newState")
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                binding.containerRoot.animate().alpha((slideOffset * 0.5).toFloat()).setDuration(0)
+                    .start()
+
+            }
+        })
+
 
     }
 
@@ -293,6 +300,7 @@ class MapsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun smallMarker(icon: Int, height: Int, width: Int): Bitmap {
         val bitmapdraw = resources.getDrawable(icon) as BitmapDrawable
         val b = bitmapdraw.bitmap

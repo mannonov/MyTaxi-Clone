@@ -16,6 +16,8 @@ class TripViewModel(private val tripDao: TripDao) : ViewModel() {
     private val repo = TripRepository(tripDao)
 
 
+
+
     val allTrip = repo.allTrips
 
     init {
